@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RawTyper</title>
+</head>
+<body>
+    <script type="module">
+        import {Typing} from './typing/typing.js';
+
+        
+        class ArithmeticArray{
+            static get_the_max_value_element(array){
+                //* Validate the array is Array object
+                Typing.validate_typings(
+                    [Typing.Array, array],
+                    [Typing.Same(), array]
+                );
+        
+                const regex_datetime=/^\d{4}-(0[0-9]|1[0-2])-\d \d{2}:\d{2}:\d{2}$/;
+                switch(typeof array.at()) {
+                    case 'number':
+                        return array.reduce((acum, current)=>Math.max(acum, current));
+                        break;
+                    case 'string':
+                        switch(regex_datetime.test(array.at())) {
+                            case true: // Is datetime
+                                return array.reduce((acum, curr) => acum > curr ? acum:curr);
+                                break;
+                            case false: // Is string
+                                return array.reduce((flag_max, next) => {
+                                    flag_max = flag_max == null ? next:next.localeCompare(flag_max)>0 ? next:flag_max;
+                                    return flag_max;
+                                }, null);
+                                break;
+                        }
+                        break;
+                    case 'boolean':
+                        return array.reduce((acum, curr) => acum > curr ? acum:curr,false);
+                }
+            }
+        }
+
+
+        console.log("%c Caso #1", "color:yellow;font-size:15px;");
+        let arreglo = [true, false, false, false, false, true];
+        console.log("entrada", arreglo);
+        console.log("salida", ArithmeticArray.get_the_max_value_element(arreglo));
+
+        console.log("%c Caso #2", "color:yellow;font-size:15px;");
+        arreglo = [4,6,57,6,7,8,6,44,2,2,1,2];
+        console.log("entrada", arreglo);
+        console.log("salida", ArithmeticArray.get_the_max_value_element(arreglo));
+
+        console.log("%c Caso #3", "color:yellow;font-size:15px;");
+        arreglo = ["Maria", "Eduardo", "Zemilio", "Aldo", "Saul"];
+        console.log("entrada", arreglo);
+        console.log("salida", ArithmeticArray.get_the_max_value_element(arreglo));
+
+        console.log("%c Caso #4", "color:yellow;font-size:15px;");
+        arreglo = ["2023-05-01 06:00:00", "2023-05-10 10:00:00", "2025-05-21 06:00:00"];
+        console.log("entrada", arreglo);
+        console.log("salida", ArithmeticArray.get_the_max_value_element(arreglo));
+
+        setTimeout(()=>{
+            console.log("%c Caso #5", "color:yellow;font-size:15px;");
+            arreglo = 78;
+            console.log("entrada", arreglo);
+            console.log("salida", ArithmeticArray.get_the_max_value_element(arreglo));
+        },1000);
+
+        setTimeout(()=>{
+            console.log("%c Caso #6", "color:yellow;font-size:15px;");
+            arreglo = ["Gemma", 29];
+            console.log("entrada", arreglo);
+            console.log("salida", ArithmeticArray.get_the_max_value_element(arreglo));
+        },1200);
+
+
+
+    </script>
+</body>
+</html>
